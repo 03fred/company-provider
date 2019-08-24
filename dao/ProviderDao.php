@@ -4,21 +4,19 @@ class ProviderDao{
 
     public function insert($data)
     {
-        echo $data;
        $data = json_decode($data,true);
        
         $sql = new Sql();
-        $query = "insert into provider(name,company_id,date_register,cpf_cnpj) values ". 
-        "(:NAME,:COMPANY_ID,:DATEREGISTER,:CPFCNPJ)";
+        $query = "Call insert_provider(:CPFCNPJ,:DATEREGISTER,:NAME,:COMPANY_ID)";
         
-        $sql->select($query, array(
+         $data = $sql->select($query, array(
             ':NAME' => $data['name'],
             ':COMPANY_ID' => $data['companyId'],
             ':DATEREGISTER' => $data['dateRegister'],
             ':CPFCNPJ' => $data['cpfCnpj']
         ));
         
-    
+      return $data;
     }
 
 

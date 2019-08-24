@@ -10,16 +10,10 @@ require_once("domain/Company.php");
 require_once("service/ProviderService.php");
 require_once("domain/Provider.php");
 require_once("config.php");
+require_once("service/PhoneService.php");
 
-$app = new \Slim\App;
+$app = new \Slim\App();
 
-// Fetch DI Container
-$container = $app->getContainer();
-
-// Register provider
-$container['flash'] = function () {
-    return new \Slim\Flash\Messages();
-};
 
 $app->get('/', function () {
   header("Location:pages/index.html");
@@ -35,8 +29,9 @@ $app->get('/', function () {
   $app->post('/register-provider', function() {
     $service = new ProviderService();
     $provider = new Provider($_POST['name'], $_POST['cpfCnpj'],$service->dateNow(),$_POST['companyId']);
-    $service->insert($provider);
-    
+    $data = $service->insert($provider);
+    $phoneService = new PhoneService();
+    $phoneService->insert($data[0]['id_provider'],$_POST['phones']);
   });
 
   $app->get('/find-all-company', function(){
