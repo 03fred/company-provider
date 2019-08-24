@@ -55,8 +55,9 @@ $("#provider-form").submit(function (event) {
 
 });
 //valida o formulario da empresa
-$("#form-company").submit(function (event) {
-    if (!validation.validarCNPJ(cpfCnpj)) {
+$("#form-company-post").submit(function (event) {
+    
+    if (!validation.validarCNPJ($("#cnpj").val())) {
         event.preventDefault();
         $("#cnpj").focus();
         createMensage($("#mensagem").text(), "CNPJ Inválido");
