@@ -49,7 +49,7 @@ $("#provider-form").submit(function (event) {
     if (validation.valCpf(cpfCnpj) === validation.validarCNPJ(cpfCnpj)) {
         event.preventDefault();
         $("#cpfCnpj").focus();
-        createMensage($("#mensagem").text(), "CPF OU CNPJ Inválidos");
+        createMensage($("#mensagem").text(), "CPF OU CNPJ Inválidos",returnErrorMessage());
 
     }
 
@@ -60,11 +60,14 @@ $("#form-company-post").submit(function (event) {
     if (!validation.validarCNPJ($("#cnpj").val())) {
         event.preventDefault();
         $("#cnpj").focus();
-        createMensage($("#mensagem").text(), "CNPJ Inválido");
+        createMensage($("#mensagem").text(), "CNPJ Inválido",returnErrorMessage());
     }
 
 });
 
+function returnErrorMessage(){
+    return "alert alert-danger";
+}
 
 // request get retorna todas as entidades (company) no banco de dados
 function findAllCompany() {
@@ -136,9 +139,120 @@ function createButtonMensage() {
 }
 
 //cria a mensagem de feedback
-function createMensage(mensage, text) {
+function createMensage(mensage, text,classMessage) {
     if (mensage.length == 30 || mensage.length == 0) {
-        $("#mensagem").attr("class", "alert alert-danger").append(text);
+        $("#mensagem").attr("class",classMessage).append(text);
         $("#close").append("x");
     }
+}
+
+
+$("#findAllCompanyTable").click(function(){
+    try{
+    $("#table-company").empty();    
+    
+    $.getJSON('/fornecedor-empresa/find-all-company', function (data) {
+        var tbl = $("<table class='table' />").attr("id", "table");
+        var thead = `
+        <caption>Relatório de Empresas</caption>
+        <thead> 
+        <tr>
+        <td>Nome Fantasia</td>
+        <td>CNPJ</td>
+        <td>UF</td>
+        <td>Fornecedores</td>
+        </tr>
+        </thead>`
+        $("#table-company").append(tbl);
+        $("#table").append(thead);
+        let tbody = '<tbody>';
+        $("#table").append(tbody);
+        for (var i = 0; i < data.length; i++) {
+            var td = `<tr>
+            <td>${data[i]['name']}</td>
+            <td>${data[i]['cnpj']}</td>
+            <td>${data[i]['uf']}</td>
+            <td><a onclick="findAllProvidersTable('${data[i]['id_company']}')">Relatório</a></td>
+            </tr>`;
+            $("#table").append(td)
+        }
+        tbody = '</tbody>';
+        $("#table").append(tbody);
+
+    });
+}catch(err){
+    console.log(err);
+}
+});
+
+
+function findAllProvidersTable(id){
+    try{
+    $("#table-company").empty();    
+    $.getJSON('/fornecedor-empresa/find-providers/'+id, function(data) {
+        console.log(data[0]);
+        if (typeof data[0][0] === "undefined") {
+            createMensage($("#mensagem").text(), "Nenhum fornecedor foi encontrado","alert alert-warning");
+        }else{
+        var tbl = $("<table class='table thead-light' />").attr("id", "table");
+        var thead = `
+        <caption>Fornecedores da empresa ${data[1][0]['name']}</caption>
+        <thead> 
+        <tr>
+        <td>Nome do Fornecedor</td>
+        <td>CNPJ/CPF</td>
+        <td>DATA DO REGISTRO</td>
+        <td>Consultar contatos</td>
+        </tr>
+        </thead>`
+        $("#table-company").append(tbl);
+        $("#table").append(thead);
+        $("#table").append("<tbody>");
+        for (var i = 0; i < data[0].length; i++) {
+            var td = `<tr>
+            <td>${data[0][i]['name']}</td>
+            <td>${data[0][i]['cpf_cnpj']}</td>
+            <td>${data[0][i]['date_register']}</td>
+            <td ><button type="button" onclick="findPhones(${data[0][i]['id_provider']})" class="btn btn-default" data-toggle="modal" 
+            data-target="#modalPhone">
+            Contato
+          </button>
+          </td>
+            </tr>`;
+            $("#table").append(td)
+        }
+        tbody = '</tbody>';
+        $("#table").append(tbody);
+    }
+    });
+}catch(err){
+    console.log(err);
+}
+};
+
+function findPhones(id){
+    $.getJSON('/fornecedor-empresa/find-phones/'+id, function(data) {
+        $(".modal-body").empty();
+        let output = '';
+        if(Object.keys(data).length === 0){
+            output = "<p>Nenhum contato foi encontrado</p>"
+            $(".modal-body").append(output);
+        }else{
+        
+        for (var i = 0; i < data.length; i++) {
+            output = `
+            <p>Contato ${i+1}: ${data[i]['number']} </p>
+            `
+           $(".modal-body").append(output);
+        }
+    }
+    });
+
+};
+
+function inputPhonecreate(){
+  let input = '<input type="text" name="phones[]" class="form-control" placeholder="Telefone"/>';  
+ $("#phonesInput").append(input);   
+ 
+
 }

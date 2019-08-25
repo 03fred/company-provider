@@ -17,11 +17,6 @@ class PhoneDao{
     }
 
 
-    public function listAll(){
-        $sql = new Sql();
-        return  $sql->select("SELECT * FROM phone");
-    }
-    
 }
 
 

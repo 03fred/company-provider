@@ -1,4 +1,6 @@
 <?php
+
+
 class CompanyDao{
 
 
@@ -21,11 +23,6 @@ class CompanyDao{
     }
 
 
-    public function listAll(){
-        $sql = new Sql();
-        return  $sql->select("SELECT * FROM company");
-    }
-    
 }
 
 

@@ -20,10 +20,6 @@ class ProviderDao{
     }
 
 
-    function listAll(){
-        $sql = new Sql();
-        return  $sql->select("select *from company");
-    }
     
 }
 
