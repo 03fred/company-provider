@@ -44,12 +44,7 @@ class Provider{
     
 
     public function setCpfCnpj($cpfCnpj){
-        if (Requisitante::validarCpf($cpfCnpj)) {
-            $cpfCopia = '4';
-            $this->cpfCnpj = $cpfCnpj;
-        } else {
-            throw new Exception("CPF INFORMADO NÃO É VÁLIDO");
-        }
+     $this->cpfCnpj = $cpfCnpj;
    }
    
    public function getCpfCnpj(){

@@ -23,8 +23,8 @@
         <h2>Cadastro de Empresa</h2>
         <form method="POST" id="form-company-post" action="/fornecedor-empresa/register-company">
             <div class="form-inline">
-                <input type="text" placeholder="CNPJ" class="form-control" id="cnpj" name="cnpj">
-                <input type="text" placeholder="Nome Da Empresa" class="form-control" name="businessName">
+                <input type="text" required="required" placeholder="CNPJ" class="cnpj form-control" id="cnpj" name="cnpj">
+                <input type="text" pattern=".{5,30}" required title="5 to 10 characters" required="required" placeholder="Nome Da Empresa" class="form-control" name="businessName">
                 <label>UF da empresa:</label>
                 <select name="uf" class="form-control">
                     <option value="AC">Acre</option>
@@ -72,13 +72,13 @@
                 <input class="form-control" id="dateControll" required="required" type="date" name="date"/>
                 <div id="datalist-company"></div>
                 <div id="form">
-                    <input name='name' placeholder="Nome do Fornecedor" class="form-control" type='text'>
-                    <input class="form-control" id="cpfCnpj" name="cpfCnpj" placeholder="digite o CPF" type="text">
+                    <input name='name'  pattern=".{5,30}" required title="5 to 30 characters"  required="required" placeholder="Nome do Fornecedor" class="form-control" type='text'>
+                    <input class="cpf form-control" id="cpfCnpj" required="required" name="cpfCnpj" placeholder="digite o CPF" type="text">
                 </div>
                 <div class="form-inline"  id="phonesInput">
                         <button type="button" class="btn btn-default" onclick="inputPhonecreate()">Adicionar Telefone</button>
 
-                    <input type="text" name="phones[]" class="form-control" placeholder="Telefone"/>
+                    <input type="text" required="required" name="phones[]" id="phone" class="form-control" placeholder="Telefone"/>
                 </div>
               
                
@@ -108,8 +108,11 @@
       </div>
 
     </div>
-    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    <script src="../js/jquery-3.4.1.min.js"></script>
+    <script src="../js/jquery.mask.js"></script>
+    <script src="../js/jquery.mask.min.js"></script>
     <script src="../js/Validation.js"></script>
+    <script src="../js/Tables.js"></script>
     <script src="../js/javascript.js"></script>
 </body>
 

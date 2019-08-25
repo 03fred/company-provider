@@ -1,6 +1,8 @@
 let list = {};
 let numGlobal = 0;
 let validation = new Validation();
+let tables = new Tables();
+
 //padrão de letras maiusculas
 function maiuscula(z) {
     v = z.value.toUpperCase();
@@ -11,7 +13,7 @@ function maiuscula(z) {
 
 $("#selectP").change(function() {
     numGlobal = $("#selectP").val();
-    $("#cpfCnpj").attr("placeholder",cpfOrCnpj());
+    cpfOrCnpj();
   });
 
 //retorna o value para o input cpf
@@ -20,14 +22,14 @@ function cpfOrCnpj() {
     if (numGlobal == 1) {
         name = 'CPF';
         $("#dateControll").attr("required", "required");
+        $("#cpfCnpj").attr("class","cpf form-control").attr("placeholder",name);
     } else {
         name = 'CNPJ';
         $("#dateControll").removeAttr("required");
+        $("#cpfCnpj").attr("class","cnpj form-control").attr("placeholder",name);
     }
 
-
-    return name;
-
+ mask();
 }
 
 //valida o formulario de fornecedor
@@ -66,7 +68,7 @@ $("#form-company-post").submit(function (event) {
     }
 
 });
-
+//retorna mensagem de erro
 function returnErrorMessage(){
     return "alert alert-danger";
 }
@@ -148,46 +150,25 @@ function createMensage(mensage, text,classMessage) {
     }
 }
 
-
+//cria a tabela de empresas cadastradas
 $("#findAllCompanyTable").click(function(){
     try{
     $("#table-company").empty();    
     
     $.getJSON('/fornecedor-empresa/find-all-company', function (data) {
-        var tbl = $("<table class='table' />").attr("id", "table");
-        var thead = `
-        <caption>Relatório de Empresas</caption>
-        <thead> 
-        <tr>
-        <td>Nome Fantasia</td>
-        <td>CNPJ</td>
-        <td>UF</td>
-        <td>Fornecedores</td>
-        </tr>
-        </thead>`
-        $("#table-company").append(tbl);
-        $("#table").append(thead);
-        let tbody = '<tbody>';
-        $("#table").append(tbody);
-        for (var i = 0; i < data.length; i++) {
-            var td = `<tr>
-            <td>${data[i]['name']}</td>
-            <td>${data[i]['cnpj']}</td>
-            <td>${data[i]['uf']}</td>
-            <td><a onclick="findAllProvidersTable('${data[i]['id_company']}')">Relatório</a></td>
-            </tr>`;
-            $("#table").append(td)
+        if (data[0] === null) {
+            closeMessage();
+            createMensage($("#mensagem").text(), "Nenhuma empresa foi encontrada","alert alert-warning");
+        }else{
+       tables.createCompanyTable(data);
         }
-        tbody = '</tbody>';
-        $("#table").append(tbody);
-
     });
 }catch(err){
     console.log(err);
 }
 });
 
-
+//cria a tabela de fornecedores cadastrados
 function findAllProvidersTable(id){
     $("#table-company").empty();    
     $.getJSON('/fornecedor-empresa/find-providers/'+id, function(data) {
@@ -195,39 +176,11 @@ function findAllProvidersTable(id){
             closeMessage();
             createMensage($("#mensagem").text(), "Nenhum fornecedor foi encontrado","alert alert-warning");
         }else{
-        var tbl = $("<table class='table thead-light' />").attr("id", "table");
-        var thead = `
-        <caption>Fornecedores da empresa ${data[1][0]['name']}</caption>
-        <thead> 
-        <tr>
-        <td>Nome do Fornecedor</td>
-        <td>CNPJ/CPF</td>
-        <td>DATA DO REGISTRO</td>
-        <td>Consultar contatos</td>
-        </tr>
-        </thead>`
-        $("#table-company").append(tbl);
-        $("#table").append(thead);
-        $("#table").append("<tbody>");
-        for (var i = 0; i < data[0].length; i++) {
-            var td = `<tr>
-            <td>${data[0][i]['name']}</td>
-            <td>${data[0][i]['cpf_cnpj']}</td>
-            <td>${data[0][i]['date_register']}</td>
-            <td ><button type="button" onclick="findPhones(${data[0][i]['id_provider']})" class="btn btn-default" data-toggle="modal" 
-            data-target="#modalPhone">
-            Contato
-          </button>
-          </td>
-            </tr>`;
-            $("#table").append(td)
+       tables.createProvidersTable(data);
         }
-        tbody = '</tbody>';
-        $("#table").append(tbody);
-    }
     });
 }
-
+//busca os telefones dos fornecedores
 function findPhones(id){
     $.getJSON('/fornecedor-empresa/find-phones/'+id, function(data) {
         $(".modal-body").empty();
@@ -248,9 +201,27 @@ function findPhones(id){
 
 };
 
+//cria inputs para o telefone
 function inputPhonecreate(){
-  let input = '<input type="text" name="phones[]" class="form-control" placeholder="Telefone"/>';  
+  let input = '<input type="text" id="phone" name="phones[]" class="form-control" placeholder="Telefone"/>';  
  $("#phonesInput").append(input);   
 
 }
 
+//adiciona mascara
+
+$(document).ready(function(){
+   mask();
+});
+
+//adiciona mascara
+function mask(){
+    try{
+        $(".cnpj").mask("99.999.999/9999-99");
+        $('.cpf').mask('000.000.000-00', {reverse: true});
+        $('#phone').mask('(00)0000-0000');
+   }catch(err){
+   
+   }
+    
+}
