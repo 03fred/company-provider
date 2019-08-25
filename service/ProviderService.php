@@ -5,8 +5,7 @@ require_once("domain/Provider.php");
 
 class ProviderService{
   
-    public function insert($data)
-   { 
+    public function insert($data){ 
     $providerDao = new ProviderDao();
     return $providerDao->insert($data);
    }
@@ -28,7 +27,17 @@ public function listAll(){
 public function listProviderForCompanyId($id){ 
   $dao = new UtilsDao();
   $query = "select * from provider where company_id = ".$id;
- return  $dao->list($query);
+  $list = $dao->list($query);
+ return ProviderService::dateFormatArray($list);
+}
+
+public static function dateFormatArray($list){
+  if(count($list) > 0){
+    foreach($list as $key=>$value){
+      $list[$key]['date_register'] = date("d/m/Y", strtotime($value['date_register']));
+    }
+    return $list;
+  }
 }
 
 }

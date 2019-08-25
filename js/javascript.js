@@ -37,6 +37,7 @@ $("#provider-form").submit(function (event) {
         let yearsOld = calcYears($("#dateControll").val());
         for (var i = 0; i < list.length; i++) {
             if ((list[i]['id_company'] == $("#datalist").val()) && (yearsOld < 18) && list[i]['uf'] === 'PR') {
+                closeMessage();
                 createMensage($("#mensagem").text(), "No estado do Paraná não se aceita menores de 18 anos");
                 event.preventDefault();
 
@@ -49,6 +50,7 @@ $("#provider-form").submit(function (event) {
     if (validation.valCpf(cpfCnpj) === validation.validarCNPJ(cpfCnpj)) {
         event.preventDefault();
         $("#cpfCnpj").focus();
+        closeMessage();
         createMensage($("#mensagem").text(), "CPF OU CNPJ Inválidos",returnErrorMessage());
 
     }
@@ -56,10 +58,10 @@ $("#provider-form").submit(function (event) {
 });
 //valida o formulario da empresa
 $("#form-company-post").submit(function (event) {
-    
     if (!validation.validarCNPJ($("#cnpj").val())) {
         event.preventDefault();
         $("#cnpj").focus();
+        closeMessage();
         createMensage($("#mensagem").text(), "CNPJ Inválido",returnErrorMessage());
     }
 
@@ -187,11 +189,10 @@ $("#findAllCompanyTable").click(function(){
 
 
 function findAllProvidersTable(id){
-    try{
     $("#table-company").empty();    
     $.getJSON('/fornecedor-empresa/find-providers/'+id, function(data) {
-        console.log(data[0]);
-        if (typeof data[0][0] === "undefined") {
+        if (data[0] === null) {
+            closeMessage();
             createMensage($("#mensagem").text(), "Nenhum fornecedor foi encontrado","alert alert-warning");
         }else{
         var tbl = $("<table class='table thead-light' />").attr("id", "table");
@@ -225,10 +226,7 @@ function findAllProvidersTable(id){
         $("#table").append(tbody);
     }
     });
-}catch(err){
-    console.log(err);
 }
-};
 
 function findPhones(id){
     $.getJSON('/fornecedor-empresa/find-phones/'+id, function(data) {
@@ -253,6 +251,6 @@ function findPhones(id){
 function inputPhonecreate(){
   let input = '<input type="text" name="phones[]" class="form-control" placeholder="Telefone"/>';  
  $("#phonesInput").append(input);   
- 
 
 }
+
