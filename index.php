@@ -8,6 +8,7 @@ require_once("vendor/autoload.php");
 require_once("service/CompanyService.php");
 require_once("domain/Company.php");
 require_once("service/ProviderService.php");
+require_once("utils/RedirectPages.php");
 require_once("domain/Provider.php");
 require_once("config.php");
 require_once("service/PhoneService.php");
@@ -16,7 +17,7 @@ $app = new \Slim\App();
 
 
 $app->get('/', function () {
-  header("Location:pages/index.html");
+  RedirectPages::redirecPageInitial();
   exit;
   });
 
@@ -24,6 +25,7 @@ $app->get('/', function () {
     $service = new CompanyService();
     $company = new Company($_POST['businessName'], $_POST['cnpj'],$_POST['uf']);
     $service->insert($company);
+    RedirectPages::redirecPageInitial();
   });
   
   $app->post('/register-provider', function() {
@@ -32,9 +34,11 @@ $app->get('/', function () {
     $data = $service->insert($provider);
     $phoneService = new PhoneService();
     $phoneService->insert($data[0]['id_provider'],$_POST['phones']);
+    RedirectPages::redirecPageInitial();
+    exit;
   });
 
-  $app->get('/find-all-company', function(){
+   $app->get('/find-all-company', function(){
     $service = new CompanyService();
      echo json_encode($service->listAll());
      exit;
