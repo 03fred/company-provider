@@ -11,9 +11,11 @@ class Company
     
 
     public function __construct($businessName,$cnpj,$uf){
-        $this->setBusinessName($businessName);
-        $this->setCnpj($cnpj);
-        $this->setUf($uf);
+             //não me atentei tanto as validações ...porém geralmente eu faço elas aqui...
+ 
+      $this->setBusinessName($businessName);
+      $this->setCnpj($cnpj);
+      $this->setUf($uf);
 
     }
 

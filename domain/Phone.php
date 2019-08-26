@@ -8,6 +8,7 @@ class Phone
     
 
     public function __construct($numberPhone,$provider_id){
+    //não me atentei tanto as validações ...porém geralmente eu faço elas aqui...
         $this->setNumberPhone($numberPhone);
         $this->setprovider_id($provider_id);
     }
