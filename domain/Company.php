@@ -42,7 +42,7 @@ class Company
    }
 
    public function getCnpj(){
-     return $this->uf;
+     return $this->cnpj;
    }
 
 
