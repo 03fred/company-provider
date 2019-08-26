@@ -45,11 +45,11 @@ class Provider{
     
 
     public function setCpfCnpj($cpfCnpj){
-     if(CpfCnpjValidation::validar_cnpj($cpfCnpj) || CpfCnpjValidation::validarCpf()){
+        $cpfCnpj = Provider::returnNumber($cpfCnpj);
+     if(CpfCnpjValidation::validar_cnpj($cpfCnpj) || CpfCnpjValidation::validarCpf($cpfCnpj)){
        $this->cpfCnpj = $cpfCnpj;
-     }else {
-        //throw new Exception("CNPJ/CPF INFORMADO NÃO É VÁLIDO");
-    }
+     }
+     
    }
    
    public function getCpfCnpj(){
@@ -77,7 +77,9 @@ class Provider{
         ));
     }
 
-
+    static function returnNumber($str) {
+        return preg_replace("/[^0-9]/", "", $str);
+    }
     
 
 

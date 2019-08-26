@@ -34,11 +34,11 @@ class Company
    }
     
    public function setCnpj($cnpj){
-    if(CpfCnpjValidation::validar_cnpj($cpfCnpj)){
+    if(CpfCnpjValidation::validar_cnpj($cnpj)){
         $this->cnpj = $cnpj;
-      }else {
-         //throw new Exception("CNPJ INFORMADO NÃO É VÁLIDO");
-     }
+      }/*else {
+        throw new Exception("CNPJ INFORMADO NÃO É VÁLIDO");
+    }*/
    }
 
    public function getCnpj(){

@@ -4,7 +4,7 @@ let validation = new Validation();
 let tables = new Tables();
 
 //padrão de letras maiusculas
-function maiuscula(z) {
+function upperCase(z) {
     v = z.value.toUpperCase();
     z.value = v;
 }
@@ -92,10 +92,7 @@ function findAllCompany() {
             "</a>" + "</td></tr>";
             $("#datalist").append(td1);
         }
-        $("#showFormProvider").hide();
-        $("#form-company").hide();
-        $("#form-provider").show();
-        $("#showFormCompany").show();
+       
     });
 
 }
@@ -120,14 +117,11 @@ function calcYears(data) {
     return yearsOld < 0 ? 0 : yearsOld;
 
 }
-// gerencia menus ocultos
-$("#showFormCompany").click(function () {
-    $("#showFormProvider").show();
-    $("#form-company").show();
-    $("#form-provider").hide();
-    $("#showFormCompany").hide();
-    closeMessage();
-});
+function showInitial(){
+    $("#showHome").attr("class","active");
+    $("#hideMenu1").removeAttr("class");
+    $("#home").attr("class","tab-pane fade active in");
+}
 
 //fecha a mensagem de erro e adiciona o botao
 function closeMessage() {
@@ -159,6 +153,7 @@ $("#findAllCompanyTable").click(function(){
         if (data[0] === null) {
             closeMessage();
             createMensage($("#mensagem").text(), "Nenhuma empresa foi encontrada","alert alert-warning");
+            showInitial();
         }else{
        tables.createCompanyTable(data);
         }
@@ -174,6 +169,7 @@ function findAllProvidersTable(id){
     $.getJSON('/fornecedor-empresa/find-providers/'+id, function(data) {
         if (data[0] === null) {
             closeMessage();
+            showInitial();
             createMensage($("#mensagem").text(), "Nenhum fornecedor foi encontrado","alert alert-warning");
         }else{
        tables.createProvidersTable(data);

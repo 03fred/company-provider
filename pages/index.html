@@ -2,16 +2,16 @@
 
 <head>
   <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
-  <title>Gerenciador de Arquivos</title>
+  <title>Gerenciador de Empresa Fornecedor</title>
   <link href="../assets/css/bootstrap.css" rel="stylesheet" />
   <script src="../assets/js/jquery-1.10.2.js"></script>
   <script src="../assets/js/bootstrap.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
-  <link href="../css/style.css" rel="stylesheet" />
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+  <link href="../css/style.css" rel="stylesheet" />
 </head>
 
 <body>
@@ -21,21 +21,18 @@
     </div>
     <div class="tab-content">
       <ul class="nav nav-tabs">
-        <li class="active"><a data-toggle="tab" href="#home">Formulário de Cadastro</a></li>
-        <li><a data-toggle="tab" href="#menu1">Relatórios de Cadastro</a></li>
+        <li id="showHome" class="active"><a data-toggle="tab" href="#home">Formulário de Empresa</a></li>
+        <li><a data-toggle="tab"  onclick="findAllCompany()"  href="#menu2">Formulario de Fornecedor</a></li>
+        <li id="hideMenu1"><a data-toggle="tab" id="findAllCompanyTable" href="#menu1">Relatórios de Cadastro</a></li>
       </ul>
 
-      <div id="home" class="tab-pane fade">
+      <div id="home" class="tab-pane fade active in">
         <br />
-        <button class="btn btn-info" id="showFormProvider" onclick="findAllCompany()">Cadastro fornecedor</button>
-        <button class="btn btn-info" id="showFormCompany" style='display:none'>Cadastro Empresarial</button>
-        <div id="form-company">
           <h2>Cadastro de Empresa</h2>
           <form method="POST" id="form-company-post" action="/fornecedor-empresa/register-company">
-
             <input type="text" required="required" placeholder="CNPJ" class="cnpj form-control" id="cnpj"
               name="cnpj"><br />
-            <input type="text" pattern=".{5,30}" required title="5 to 10 characters" required="required"
+            <input type="text" onkeyup="upperCase(this)" pattern=".{5,30}" required title="5 to 10 characters" required="required"
               placeholder="Nome Da Empresa" class="form-control" name="businessName"><br />
             <label>UF da empresa:</label>
             <select name="uf" class="form-control">
@@ -71,9 +68,9 @@
             <br />
             <button class="btn btn-primary">Salvar</button>
           </form>
-        </div>
-
-        <div id="form-provider" style="display:none">
+        
+      </div>
+        <div id="menu2" class="tab-pane fade">
           <form method="POST" id="provider-form" action="/fornecedor-empresa/register-provider">
             <h2>Cadastro de fornecedor</h2>
             <select class="form-control" name="companyId" id="selectP">
@@ -85,7 +82,7 @@
             <div id="datalist-company"></div>
             <div id="form"><br />
               <input name='name' pattern=".{5,30}" required title="5 to 30 characters" required="required"
-                placeholder="Nome do Fornecedor" class="form-control" type='text'><br />
+                placeholder="Nome do Fornecedor" onkeyup="upperCase(this)" class="form-control" type='text'><br />
               <input class="cpf form-control" id="cpfCnpj" required="required" name="cpfCnpj" placeholder="digite o CPF"
                 type="text"><br />
             </div>
@@ -100,12 +97,9 @@
             <br />
             <button class="btn btn-primary">Salvar</button>
           </form>
-        </div>
-
       </div>
       <div id="menu1" class="tab-pane fade">
         <br />
-        <button class="btn btn-success" id="findAllCompanyTable">Buscar</button>
         <div id="table-company"></div>
       </div>
       <div class="modal fade" id="modalPhone" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"

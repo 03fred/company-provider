@@ -28,6 +28,7 @@ class CpfCnpjValidation{
 
     public static function validarCpf($cpf): bool
     {
+        
         if (empty($cpf)) {
             return false;
         }
@@ -71,7 +72,7 @@ class CpfCnpjValidation{
             return true;
         }
     }
-
+   
 }
 
 
