@@ -1,5 +1,6 @@
 <?php
 
+require_once('utils/validations/CpfCnpjValidation.php');
 
 class Company
 {
@@ -33,7 +34,11 @@ class Company
    }
     
    public function setCnpj($cnpj){
-       $this->cnpj = $cnpj;
+    if(CpfCnpjValidation::validar_cnpj($cpfCnpj)){
+        $this->cnpj = $cnpj;
+      }else {
+         //throw new Exception("CNPJ INFORMADO NÃO É VÁLIDO");
+     }
    }
 
    public function getCnpj(){
