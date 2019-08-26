@@ -18,6 +18,21 @@ class ProviderService{
 
 }
 
+public function findByName($name){ 
+  $dao = new UtilsDao();
+  $query =  "select * from provider where name LIKE :nome";
+  $list = $dao->findByName($query,$name);
+  return ProviderService::dateFormatArray($list);
+ }
+
+ public function findByDateRegisterOrCpfCnpj($data,$value){
+  $sql = new Sql();
+  $dao = new UtilsDao();
+  $query = "select * from provider where ".$data." = "."'".$value."'";
+  $list = $dao->findByDateRegisterOrCpfCnpj($query);
+  return ProviderService::dateFormatArray($list);
+ }
+
 public function listAll(){ 
   $dao = new UtilsDao();
   $query = "select * from provider";

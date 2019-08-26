@@ -22,84 +22,96 @@
     <div class="tab-content">
       <ul class="nav nav-tabs">
         <li id="showHome" class="active"><a data-toggle="tab" href="#home">Formulário de Empresa</a></li>
-        <li><a data-toggle="tab"  onclick="findAllCompany()"  href="#menu2">Formulario de Fornecedor</a></li>
+        <li><a data-toggle="tab" onclick="findAllCompany()" href="#menu2">Formulario de Fornecedor</a></li>
         <li id="hideMenu1"><a data-toggle="tab" id="findAllCompanyTable" href="#menu1">Relatórios de Cadastro</a></li>
       </ul>
 
       <div id="home" class="tab-pane fade active in">
         <br />
-          <h2>Cadastro de Empresa</h2>
-          <form method="POST" id="form-company-post" action="/fornecedor-empresa/register-company">
-            <input type="text" required="required" placeholder="CNPJ" class="cnpj form-control" id="cnpj"
-              name="cnpj"><br />
-            <input type="text" onkeyup="upperCase(this)" pattern=".{5,30}" required title="5 to 30 characters" required="required"
-              placeholder="Nome Da Empresa" class="form-control" name="businessName"><br />
-            <label>UF da empresa:</label>
-            <select name="uf" class="form-control">
-              <option value="AC">Acre</option>
-              <option value="AL">Alagoas</option>
-              <option value="AP">Amapá</option>
-              <option value="AM">Amazonas</option>
-              <option value="BA">Bahia</option>
-              <option value="CE">Ceará</option>
-              <option value="DF">Distrito Federal</option>
-              <option value="ES">Espírito Santo</option>
-              <option value="GO">Goiás</option>
-              <option value="MA">Maranhão</option>
-              <option value="MT">Mato Grosso</option>
-              <option value="MS">Mato Grosso do Sul</option>
-              <option value="MG">Minas Gerais</option>
-              <option value="PA">Pará</option>
-              <option value="PB">Paraíba</option>
-              <option value="PR">Paraná</option>
-              <option value="PE">Pernambuco</option>
-              <option value="PI">Piauí</option>
-              <option value="RJ">Rio de Janeiro</option>
-              <option value="RN">Rio Grande do Norte</option>
-              <option value="RS">Rio Grande do Sul</option>
-              <option value="RO">Rondônia</option>
-              <option value="RR">Roraima</option>
-              <option value="SC">Santa Catarina</option>
-              <option value="SP">São Paulo</option>
-              <option value="SE">Sergipe</option>
-              <option value="TO">Tocantins</option>
-            </select>
+        <h2>Cadastro de Empresa</h2>
+        <form method="POST" id="form-company-post" action="/fornecedor-empresa/register-company">
+          <input type="text" required="required" placeholder="CNPJ" class="cnpj form-control" id="cnpj"
+            name="cnpj"><br />
+          <input type="text" onkeyup="upperCase(this)" pattern=".{5,30}" required title="5 to 30 characters"
+            required="required" placeholder="Nome Da Empresa" class="form-control" name="businessName"><br />
+          <label>UF da empresa:</label>
+          <select name="uf" class="form-control">
+            <option value="AC">Acre</option>
+            <option value="AL">Alagoas</option>
+            <option value="AP">Amapá</option>
+            <option value="AM">Amazonas</option>
+            <option value="BA">Bahia</option>
+            <option value="CE">Ceará</option>
+            <option value="DF">Distrito Federal</option>
+            <option value="ES">Espírito Santo</option>
+            <option value="GO">Goiás</option>
+            <option value="MA">Maranhão</option>
+            <option value="MT">Mato Grosso</option>
+            <option value="MS">Mato Grosso do Sul</option>
+            <option value="MG">Minas Gerais</option>
+            <option value="PA">Pará</option>
+            <option value="PB">Paraíba</option>
+            <option value="PR">Paraná</option>
+            <option value="PE">Pernambuco</option>
+            <option value="PI">Piauí</option>
+            <option value="RJ">Rio de Janeiro</option>
+            <option value="RN">Rio Grande do Norte</option>
+            <option value="RS">Rio Grande do Sul</option>
+            <option value="RO">Rondônia</option>
+            <option value="RR">Roraima</option>
+            <option value="SC">Santa Catarina</option>
+            <option value="SP">São Paulo</option>
+            <option value="SE">Sergipe</option>
+            <option value="TO">Tocantins</option>
+          </select>
 
-            <br />
-            <button class="btn btn-primary">Salvar</button>
-          </form>
-        
+          <br />
+          <button class="btn btn-primary">Salvar</button>
+        </form>
+
       </div>
-        <div id="menu2" class="tab-pane fade">
-          <form method="POST" id="provider-form" action="/fornecedor-empresa/register-provider">
-            <h2>Cadastro de fornecedor</h2>
-            <select class="form-control" name="companyId" id="selectP">
-              <option value="1">Pessoa Física</option>
-              <option value="2">Pessoa Jurídica</option>
-            </select><br />
-            <label>Digite sua data de nascimento<strong id="warning">(Obrigatório para pessoa Física)</strong></label>
-            <input class="form-control" id="dateControll" required="required" type="date" name="date" /><br />
-            <div id="datalist-company"></div>
-            <div id="form"><br />
-              <input name='name' pattern=".{5,30}" required title="5 to 30 characters" required="required"
-                placeholder="Nome do Fornecedor" onkeyup="upperCase(this)" class="form-control" type='text'><br />
-              <input class="cpf form-control" id="cpfCnpj" required="required" name="cpfCnpj" placeholder="digite o CPF"
-                type="text"><br />
-            </div>
-            <div class="form-inline" id="phonesInput">
-              <button type="button" class="btn btn-default" onclick="inputPhonecreate()">Adicionar Telefone</button>
+      <div id="menu2" class="tab-pane fade">
+        <form method="POST" id="provider-form" action="/fornecedor-empresa/register-provider">
+          <h2>Cadastro de fornecedor</h2>
+          <select class="form-control" name="companyId" id="selectP">
+            <option value="1">Pessoa Física</option>
+            <option value="2">Pessoa Jurídica</option>
+          </select><br />
+          <div id="datalist-company"></div><br />
+          <div id="form">
+            <label>Digite sua data de nascimento</label>
+            <input class="form-control" id="dateControll" id="birth" required="required" type="date"
+              name="birth" /><br />
+            <input name="rg" id="rg" placeholder="RG" type="text" required="required" class="form-control" /><br />
+          </div><br />
+          <input name='name' pattern=".{5,30}" required title="5 to 30 characters" required="required"
+            placeholder="Nome do Fornecedor" onkeyup="upperCase(this)" class="form-control" type='text'><br />
+          <input class="cpf form-control" id="cpfCnpj" required="required" name="cpfCnpj" placeholder="digite o CPF"
+            type="text"><br />
 
-              <input type="text" required="required" name="phones[]" id="phone" class="form-control"
-                placeholder="Telefone" />
-            </div>
+          <div class="form-inline" id="phonesInput">
+            <button type="button" class="btn btn-default" onclick="inputPhonecreate()">Adicionar Telefone</button>
+
+            <input type="text" required="required" name="phones[]" id="phone" class="form-control"
+              placeholder="Telefone" />
+          </div>
 
 
-            <br />
-            <button class="btn btn-primary">Salvar</button>
-          </form>
+          <br />
+          <button class="btn btn-primary">Salvar</button>
+        </form>
       </div>
       <div id="menu1" class="tab-pane fade">
         <br />
+        <div class="form-inline">
+          <select class="form-control" name="searchValue" id="searchValue">
+            <option value="1">Busca por nome</option>
+            <option value="2">Pessoa por cpf/cnpj</option>
+            <option value="3">Busca por data de registro</option>
+          </select>
+          <input class="form-control" name="name"  type="text" id="search" />
+          <button class="btn btn-success" onclick="searchTable()">Buscar</button>
+        </form>
         <div id="table-company"></div>
       </div>
       <div class="modal fade" id="modalPhone" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"

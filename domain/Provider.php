@@ -1,5 +1,6 @@
 <?php
 require_once('utils/validations/CpfCnpjValidation.php');
+require_once("utils/Utils.php");
 
 class Provider{
   
@@ -7,14 +8,18 @@ class Provider{
     private $name;
     private $cpfCnpj;
     private $dateRegister;
+    private $rg;
+    private $birth;
     private $companyId;
    
 
-    public function __construct($name,$cpfCnpj,$dateRegister,$companyId){
+    public function __construct($name,$cpfCnpj,$dateRegister,$companyId,$birth,$rg){
         $this->setName($name);
         $this->setCpfCnpj($cpfCnpj);
         $this->setDateRegister($dateRegister);
         $this->setCompanyId($companyId);
+        $this->setBirth($birth);
+        $this->setRg($rg);
        
     }
 
@@ -35,6 +40,23 @@ class Provider{
          $this->name = $name;
     }
 
+    public function getRg(){
+        return $this->rg;
+    }
+    
+    public function setRg($rg){
+         $this->rg = $rg;
+    }
+
+    public function getBirth(){
+        return $this->birth;
+    }
+    
+    public function setBirth($birth){
+         $this->birth = $birth;
+    }
+    
+
     public function setCompanyId($companyId){
          $this->companyId = $companyId;
     }
@@ -45,7 +67,7 @@ class Provider{
     
 
     public function setCpfCnpj($cpfCnpj){
-        $cpfCnpj = Provider::returnNumber($cpfCnpj);
+        $cpfCnpj = Utils::returnNumber($cpfCnpj);
      if(CpfCnpjValidation::validar_cnpj($cpfCnpj) || CpfCnpjValidation::validarCpf($cpfCnpj)){
        $this->cpfCnpj = $cpfCnpj;
      }
@@ -72,14 +94,14 @@ class Provider{
            "name"=> $this -> getName(),
            "dateRegister"=>$this -> getDateRegister(),
            "cpfCnpj"=>$this -> getCpfCnpj(),
-           "companyId"=>$this -> getCompanyId()
+           "companyId"=>$this -> getCompanyId(),
+           "rg"=>$this -> getRg(),
+           "birth"=>$this->getBirth()
     
         ));
     }
 
-    static function returnNumber($str) {
-        return preg_replace("/[^0-9]/", "", $str);
-    }
+   
     
 
 
