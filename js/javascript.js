@@ -46,7 +46,7 @@ $("#provider-form").submit(function (event) {
         for (var i = 0; i < list.length; i++) {
             if ((list[i]['id_company'] == $("#datalist").val()) && (yearsOld < 18) && list[i]['uf'] === 'PR') {
                 closeMessage();
-                createMensage($("#mensagem").text(), "No estado do Paraná não se aceita menores de 18 anos");
+                createMensage($("#mensagem").text(), "No estado do Paraná não se aceita menores de 18 anos",returnErrorMessage());
                 event.preventDefault();
 
             }
